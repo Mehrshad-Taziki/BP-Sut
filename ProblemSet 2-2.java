@@ -1,48 +1,39 @@
 import java.util.Scanner;
-
 public class help {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int numbers = scanner.nextInt();
-        int intervals = scanner.nextInt();
-        int orders = scanner.nextInt();
-        int[] number = new int[numbers];
-        for (int i = 0; i < numbers; i++) {
-            number[i] = scanner.nextInt();
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        int[] A = new int[n];
+        String[] chair = new String[n];
+        for (int i = 0; i < n; i++) {
+            chair[i] = scanner.next();
+            A[i] = i;
         }
-        int[] interval1 = new int[intervals];
-        int[] interval2 = new int[intervals];
-        for (int i = 0; i < intervals; i++) {
-            interval1[i] = scanner.nextInt();
-            interval2[i] = scanner.nextInt();
+        int[] value = new int[n];
+        for (int i = 0; i < n; i++) {
+            value[i] = scanner.nextInt();
         }
-        long[] values = new long[intervals];
-        long[] sums = new long[numbers + 1];
-        sums[0] = 0L;
-        for (int i = 0; i < numbers; i++) {
-            sums[i + 1] = sums[i] + number[i];
-        }
-        for (int i = 0; i < intervals; i++) {
-            values[i] = sums[interval2[i]] - sums[interval1[i] - 1];
-        }
-        for (int j = 0; j < orders; j++) {
-            int help = scanner.nextInt();
-            if (help == 1) {
-                int i = scanner.nextInt();
-                int l = scanner.nextInt();
-                int r = scanner.nextInt();
-                values[i - 1] = sums[r] - sums[l - 1];
-                interval1[i - 1] = l;
-                interval2[i - 1] = r;
-            } else {
-                int first = scanner.nextInt();
-                int last = scanner.nextInt();
-                long ans = 0L;
-                for (int i = first - 1; i < last; i++) {
-                    ans += values[i];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (value[A[j]] > value[A[j + 1]]) {
+                    int help = A[j];
+                    A[j] = A[j + 1];
+                    A[j + 1] = help;
                 }
-                System.out.println(ans);
             }
+        }
+        for (int i = 0; i < m; i++) {
+            String[] help = new String[n];
+            for (int j = 0; j < n; j++) {
+                help[j] = chair[A[j]];
+            }
+            for (int j = 0; j < n; j++) {
+                chair[j] = help[j];
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            System.out.print(chair[i]+ " ");
         }
     }
 }
